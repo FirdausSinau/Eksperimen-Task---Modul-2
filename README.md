@@ -25,7 +25,7 @@ Repositori ini berisi dokumentasi, eksplorasi kode, dan analisis diagnosis error
     ├── index.html             # Form kalkulator total
     ├── css/style.css          # Layout form kalkulator
     └── js/app.js              # Simulasi & perbaikan 5 kasus error JavaScript
-
+```
 📌 Intisari Eksperimen
 1. Eksperimen 1: Console dan Tipe Data
 Manajemen Tipe Data: JavaScript tidak memiliki tipe data char atau int terpisah. Semua teks diolah sebagai string dan semua angka sebagai number.
