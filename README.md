@@ -1,75 +1,60 @@
-# Eksperimen-Task---Modul-2
+# Proyek Modul 2: Vanilla JavaScript & Interaktivitas Web
 
-# 🚀 Praktikum Vanilla JavaScript (Eksperimen 1–4)
-
-Repositori ini berisi dokumentasi, eksplorasi kode, dan analisis diagnosis error dari rangkaian eksperimen **Vanilla JavaScript**. Proyek ini bertujuan untuk memperdalam pemahaman mengenai konsep dasar JavaScript, manipulasi DOM, eksekusi asinkron, hingga teknik debugging menggunakan Chrome DevTools.
+Proyek praktikum ini berfokus pada implementasi Vanilla JavaScript untuk memanipulasi DOM, menangani form, dan mengelola permintaan data asinkron (AJAX/Fetch API). Proyek ini dibagi menjadi beberapa bagian tugas dan skenario pengujian ketahanan kode.
 
 ---
 
-## 📁 Struktur Proyek
+## 🧪 Bagian 1: Eksperimen dan Pengujian Skenario
 
-```text
-.
-├── eksperimen-1-console-data-types/
-│   └── app.js                 # Eksplorasi typeof, konversi tipe, dan operator perbandingan
-├── eksperimen-2-dom-events/
-│   ├── index.html             # Struktur UI eksperimen DOM
-│   ├── css/style.css          # Styling & mode tema
-│   └── js/app.js              # Manipulasi DOM, defensive programming, event listener
-├── eksperimen-3-async-fetch/
-│   ├── index.html             # UI dengan status indicator
-│   ├── css/style.css          # Styling state (loading, error, success)
-│   ├── data/features.json     # Mock database JSON
-│   └── js/app.js              # Async/Await, fetch, penanganan state UI, try/catch/finally
-└── eksperimen-4-debugging/
-    ├── index.html             # Form kalkulator total
-    ├── css/style.css          # Layout form kalkulator
-    └── js/app.js              # Simulasi & perbaikan 5 kasus error JavaScript
-```
-📌 Intisari Eksperimen
-1. Eksperimen 1: Console dan Tipe Data
-Manajemen Tipe Data: JavaScript tidak memiliki tipe data char atau int terpisah. Semua teks diolah sebagai string dan semua angka sebagai number.
+Bagian ini mendokumentasikan skenario eksperimen yang dilakukan untuk menguji ketahanan aplikasi (terutama pada modul asinkron) terhadap berbagai kegagalan (*failure scenarios*) dan manajemen *state*.
 
-Konkatenasi vs Penjumlahan: Operator + pada data bertipe string akan menyambungkan teks (string concatenation). Konversi eksplisit seperti Number() diperlukan sebelum operasi matematika.
+### Eksperimen yang Dilakukan:
+1. **Eksperimen Path Salah (Error 404):** 
+   Mengubah URL `fetch` ke rute yang salah secara sengaja untuk menguji penangkapan error status HTTP. Hasilnya, UI berhasil beralih ke *state error* (merah) dan memunculkan tombol "Coba Lagi".
+2. **Eksperimen JSON Rusak (Syntax Error):** 
+   Menghapus tanda baca pada berkas `.json` untuk memicu kegagalan *parsing*. Blok `catch` berhasil mendeteksi kegagalan tersebut dan mencegah aplikasi *crash*.
+3. **Eksperimen Data Kosong (State Empty):** 
+   Mengosongkan isi array pada JSON untuk memastikan aplikasi dapat menangani kondisi "Tidak ada data" dengan memberikan pesan yang jelas kepada pengguna tanpa memicu error teknis.
+4. **Eksperimen Server Mati (Network Error):** 
+   Mematikan ekstensi *local server* secara tiba-tiba untuk memicu `TypeError: Failed to fetch`.
+5. **Eksperimen Klik Ganda (Race Condition):** 
+   Menguji penonaktifan interaksi secara sementara (`disabled = true`) ketika proses *fetching* sedang berjalan, memastikan data tidak ter-*render* lebih dari satu kali (*duplicate*).
 
-Perbandingan Ketat (===): Memahami bahwa === mengecek nilai sekaligus tipe data tanpa konversi otomatis (implicit type coercion), menjadikannya lebih aman dibanding ==.
+---
 
-Penanganan NaN: Konversi teks non-angka menggunakan Number() menghasilkan nilai khusus NaN (Not-a-Number).
+## 💻 Bagian 2: Daftar Task & Homework
 
-2. Eksperimen 2: DOM dan Event
-Manipulasi Node & Teks: Menggunakan document.querySelector untuk memilih elemen dan textContent untuk memperbarui teks antarmuka secara aman.
+Berikut adalah daftar tugas (*Task*) yang diselesaikan di dalam proyek ini:
 
-Defensive Programming: Menerapkan pengecekan null sebelum memanipulasi elemen DOM untuk mencegah runtime error TypeError: Cannot read properties of null.
+### Task 1: JavaScript Logic Builder
+*   Membangun fungsi murni (*pure function*) tanpa manipulasi DOM untuk memvalidasi nilai angka, menentukan kategori predikat (A, B, C, D), status kelulusan, serta menghasilkan objek ringkasan statistik (total, rata-rata, lulus/tidak).
 
-Pemisahan Peran JS & CSS: JavaScript bertugas mengelola logika dan status (classList.toggle), sedangkan CSS bertanggung jawab penuh atas gaya visual antarmuka.
+### Task 2: DOM dan Form (Daftar Peserta)
+*   Membuat form interaktif yang memvalidasi input secara *real-time* (nama tidak boleh kosong, prodi wajib dipilih).
+*   Mengelola atribut aksesibilitas `aria-invalid` untuk validasi kolom.
+*   Menambahkan fitur *filter* data dan merender ulang DOM menggunakan kombinasi `document.createElement` dan `replaceChildren` agar terhindar dari tumpukan elemen dan celah XSS.
 
-Aksesibilitas (A11y): Memperbarui atribut seperti aria-pressed secara dinamis saat status komponen berubah.
+### Task 3: Asynchronous Data Loader (Materi JS)
+*   Menerapkan penggunaan `fetch` API dan `async/await` untuk memuat berkas lokal `materi.json`.
+*   Membangun sistem *state management* sederhana (`idle`, `loading`, `success`, `error`, `empty`) yang diikat langsung dengan atribut `data-state` pada CSS.
 
-3. Eksperimen 3: Promise, Fetch, dan State UI
-Konsep Event Loop: Membuktikan bahwa setTimeout(fn, 0) tetap dieksekusi setelah seluruh kode sinkron di Call Stack selesai dihabiskan.
+### Task 4 (Homework): Interactive Profile Card
+*   **Deskripsi:** Aplikasi kartu profil interaktif yang memuat informasi biodata dan keterampilan (*skills*) dari berkas `profile.json` secara asinkron.
+*   **Fitur Utama:**
+    *   Sistem *Toggle* detail biodata memanfaatkan `classList.toggle` dan atribut `aria-expanded`.
+    *   Penggantian tema antarmuka (Terang / Gelap).
+    *   Manajemen *state* lengkap saat memuat profil pertama kali (mendukung fitur muat ulang dan coba lagi jika gagal).
+    *   Fitur penambahan keterampilan baru (dengan validasi input kosong) dan penghapusan keterampilan secara individual.
 
-Manajemen State UI: Mengelola 5 status antarmuka secara terstruktur: idle, loading, success, empty, dan error.
+---
 
-Pencegahan Klik Ganda (Double-Click Prevention): Menonaktifkan tombol (disabled = true) selama proses pemuatan data untuk mencegah request HTTP berulang yang merusak antarmuka.
+## 🚀 Cara Menjalankan Proyek Lokal
 
-Diagnosis Error Asinkron: Menganalisis perbedaan Network Error/HTTP Status (misal 404) vs Parsing Error (SyntaxError pada format JSON rusak).
+Karena proyek ini menggunakan Fetch API yang terkena kebijakan *CORS (Cross-Origin Resource Sharing)* pada *file protocol* (`file://`), proyek **wajib** dijalankan menggunakan *Local Web Server*.
 
-Jaminan Cleanup (finally): Menggunakan blok finally untuk memastikan tombol antarmuka selalu diaktifkan kembali, baik saat proses berhasil maupun gagal.
-
-4. Eksperimen 4: Diagnosis Error JavaScript (Debugging)
-Selector Mismatch: Mengidentifikasi dan memperhitungkan error TypeError akibat ketidakcocokan ID elemen antara HTML dan JavaScript.
-
-Case-Sensitivity & Typo: Menangani ReferenceError akibat kesalahan penulisan nama variabel.
-
-Default Form Submission: Menggunakan event.preventDefault() pada handler submit untuk mencegah pemuatan ulang halaman (page reload) dan hilangnya memori aplikasi.
-
-Event Listener Duplikasi: Mengatasi pemanggilan fungsi ganda akibat pendaftaran event listener berulang pada elemen yang sama.
-
-💡 Pembelajaran Utama (Key Takeaways)
-Defensive Coding Pertama: Selalu validasi ketersediaan elemen DOM dan tipe data sebelum memprosesnya untuk menghindari aplikasi crash.
-
-Kesadaran Event Loop: Kode asinkron tidak berjalan "bersamaan", melainkan ditangguhkan di queue sampai stack eksekusi sinkron bersih.
-
-State-Driven UI: Pengguna harus selalu mendapatkan umpan balik visual yang jelas (loading indicator, tombol ter-disable, pesan error) di setiap perubahan status proses.
-
-DevTools sebagai Alat Diagnosis: Menggunakan kombinasi tab Console, Elements, dan Network untuk melacak akar masalah (root cause) secara terstruktur.
+1. Buka folder proyek ini di **Visual Studio Code**.
+2. Pastikan ekstensi **Live Server** (oleh Ritwick Dey) sudah terpasang.
+3. Buka berkas `index.html` dari Task yang ingin kamu jalankan.
+4. Klik kanan pada area editor kode HTML tersebut, lalu pilih **Open with Live Server** (atau klik tombol **Go Live** di *status bar* bawah).
+5. Aplikasi akan otomatis terbuka di peramban (browser) bawaan pada alamat `http://127.0.0.1:5500/`.
+6. Untuk melihat log proses asinkron dan eksperimen *error*, tekan **F12** untuk membuka **Developer Tools**, lalu pantau tab **Network** dan **Console**.
